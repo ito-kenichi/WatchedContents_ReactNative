@@ -1,14 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, TouchableHighlight, Text } from 'react-native';
+import Details from "./DetailModal";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+export default class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { isModalVisible: false};
+  }
+
+  setModalVisible(visible) {
+    this.setState({
+      isModalVisible: visible,
+    });
+  }
+
+  render() {
+    return (
+      <View style={styles.centeredView}>
+        <Details
+          propsname={this.state.isModalVisible}
+          contentId={0}
+          closeDisplay={() => this.setState({ isModalVisible: false })}
+        />
+
+        <TouchableHighlight
+          style={styles.openButton}
+          // onPress={() => {this.setModalVisible(true)}}
+          onPress={() => {
+            this.setState({
+              isModalVisible: !this.state.isModalVisible,
+            });
+          }}
+        >
+          <Text style={styles.textStyle}>Show Modal</Text>
+        </TouchableHighlight>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -18,4 +47,53 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    width: 300,
+    height: 200,
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  },
+  image: {
+    width: 100,
+    height: 50,
+    marginLeft: 10,
+    marginTop: 10,
+  },
+  modalStyle: {
+    width: 300,
+    height: 200,
+    backgroundColor: "green",
+  }
 });
